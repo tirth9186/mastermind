@@ -3,7 +3,7 @@ import React from "react";
 export default function ColorButton({ setColor }) {
   const handleClick = (e) => {
     e.stopPropagation();
-    setColor(e.target.id);
+    if (e.target.id.length > 0) setColor(e.target.id);
   };
 
   return (

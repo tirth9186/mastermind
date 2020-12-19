@@ -39,6 +39,7 @@ export default function App() {
           <div className="row">
             <div className="col">
               {color}
+
               <Trial />
               <Trial />
               <Trial />
