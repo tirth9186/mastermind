@@ -3,10 +3,15 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./styles.css";
 import ColorButton from "./Components/ColorButton";
 import Trial from "./Components/Trial";
-export default function App() {
-  const [color, setColor] = useState("");
-  const [showRules, setShowRules] = useState(false);
 
+export const colorContext = React.createContext();
+
+export default function App() {
+  const [color, setColor] = useState("zero");
+  const [showRules, setShowRules] = useState(false);
+  const [trials, setTrials] = useState(10);
+  const arr = [];
+  for (let i = 0; i < trials; i++) arr.push(i);
   return (
     <div className="App">
       <h1>
@@ -38,18 +43,13 @@ export default function App() {
         <div className="col-sm-10 col-md-6 mx-auto clearfix">
           <div className="row">
             <div className="col">
-              {color}
-
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
-              <Trial />
+              <colorContext.Provider value={color}>
+                {arr.map((num) => {
+                  if (num === 0)
+                    return <Trial key={num} active={true} num={num} />;
+                  else return <Trial key={num} active={false} num={num} />;
+                })}
+              </colorContext.Provider>
             </div>
             <div className="col">
               <ColorButton setColor={setColor} />

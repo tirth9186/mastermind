@@ -20,9 +20,17 @@ h1 {
   font-family: "Cinzel", serif;
   letter-spacing: 3px;
 }
+.decode-row {
+  padding: 10px 0 10px 10px;
+  border: #f4f4f4 1px solid;
+}
 
 .selected {
   border: #525554 2px solid;
+}
+
+.active.row {
+  border: #a8a8a8 1px solid;
 }
 
 .round {
@@ -30,6 +38,10 @@ h1 {
   height: 30px;
   border-radius: 50%;
   margin: 5px;
+}
+
+.border {
+  border: #eaebe9 2px solid;
 }
 
 .M,
