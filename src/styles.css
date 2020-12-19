@@ -1,0 +1,108 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.info {
+  border: #eaebe9 1px solid;
+  padding: 10px;
+  width: 400px;
+}
+
+h1 span {
+  color: #ffffff;
+  padding: 0 5px;
+}
+
+h1 {
+  color: #333333;
+  font-size: 1.8rem;
+  font-family: "Cinzel", serif;
+  letter-spacing: 3px;
+}
+
+.selected {
+  border: #525554 2px solid;
+}
+
+.round {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.M,
+.zero {
+  background: #ffb400;
+}
+
+.A,
+.one {
+  background: #ff5a5f;
+}
+
+.S,
+.two {
+  background-color: #8ce071;
+}
+
+.T,
+.three {
+  background-color: #00d1c1;
+}
+
+.E,
+.four {
+  background-color: #007a87;
+}
+
+.R,
+.five {
+  background-color: #7b0051;
+}
+
+.MIND {
+  color: #333333;
+}
+
+.hints-row {
+  width: 44px;
+  margin-top: 0;
+}
+
+.hint {
+  display: inline-block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  border: 1px solid #28222d;
+  border-radius: 50%;
+}
+
+.hint.exact-matches {
+  background-color: #555461;
+}
+
+.hint.value-matches {
+  background-color: #ffffff;
+}
+
+.hint.none-matches:before,
+.hint.none-matches:after {
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  content: " ";
+  height: 8px;
+  width: 2px;
+  background-color: #333;
+}
+
+.hint.none-matches:before {
+  transform: rotate(45deg);
+}
+.hint.none-matches:after {
+  transform: rotate(-45deg);
+}
