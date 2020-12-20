@@ -5,9 +5,10 @@ import ColorButton from "./Components/ColorButton";
 import Trial from "./Components/Trial";
 
 export const colorContext = React.createContext();
-
+export const activeContext = React.createContext();
 export default function App() {
   const [color, setColor] = useState("zero");
+  const [active, setActive] = useState(0);
   const [showRules, setShowRules] = useState(false);
   const [trials, setTrials] = useState(10);
   const arr = [];
@@ -44,11 +45,12 @@ export default function App() {
           <div className="row">
             <div className="col">
               <colorContext.Provider value={color}>
-                {arr.map((num) => {
-                  if (num === 0)
-                    return <Trial key={num} active={true} num={num} />;
-                  else return <Trial key={num} active={false} num={num} />;
-                })}
+                <activeContext.Provider value={[active, setActive]}>
+                  {arr.map((num) => {
+                    if (num === 0) return <Trial key={num} num={num} />;
+                    else return <Trial key={num} num={num} />;
+                  })}
+                </activeContext.Provider>
               </colorContext.Provider>
             </div>
             <div className="col">

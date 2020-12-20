@@ -1,21 +1,29 @@
 import React, { useState, useContext, useEffect } from "react";
 import Hints from "./Hints";
-import { colorContext } from "../App";
-export default function Trial({ num, active }) {
+import { colorContext, activeContext } from "../App";
+export default function Trial({ num }) {
   const color = useContext(colorContext);
+  const [active, setActive] = useContext(activeContext);
+
   const [selected, setSelected] = useState(0);
 
   const handleClick = (e) => {
     const id = e.target.id;
-    if (id !== "" && !id.includes("trial") && active) {
+    if (id !== "" && !id.includes("trial") && active === num) {
       const ele = document.getElementById(id);
-      if (ele.classList.length <= 1) ele.classList.add(color);
-      else {
+      if (ele.classList.length <= 2) {
+        ele.classList.add(color);
+        setSelected(selected + 1);
+      } else {
         const last = ele.classList[ele.classList.length - 1];
         ele.classList.remove(last);
         ele.classList.add(color);
       }
     }
+  };
+
+  const handleSubmit = () => {
+    if (active === num) setActive(active + 1);
   };
 
   useEffect(() => {
@@ -24,19 +32,33 @@ export default function Trial({ num, active }) {
     const e3 = document.getElementById("two");
     const e4 = document.getElementById("three");
     const e5 = document.getElementById("trial");
-    e1.setAttribute("id", e1.id + num);
-    e2.setAttribute("id", e2.id + num);
-    e3.setAttribute("id", e3.id + num);
-    e4.setAttribute("id", e4.id + num);
-    e5.setAttribute("id", e5.id + num);
-    if (active) {
-      e5.classList.add("active");
-      e1.classList.add("border");
-      e2.classList.add("border");
-      e3.classList.add("border");
-      e4.classList.add("border");
+    if (e1 && e2 && e3 && e4 && e5) {
+      e1.setAttribute("id", e1.id + num);
+      e2.setAttribute("id", e2.id + num);
+      e3.setAttribute("id", e3.id + num);
+      e4.setAttribute("id", e4.id + num);
+      e5.setAttribute("id", e5.id + num);
     }
-  }, []);
+  }, [num]);
+
+  useEffect(() => {
+    if (active !== num && active !== num - 1) return;
+    const e5 = document.getElementById("trial" + num);
+    const childArr = e5.children;
+    if (active === num) {
+      e5.classList.add("active");
+      for (let i = 0; i < childArr.length; i++) {
+        if (childArr[i].classList[0] === "round")
+          childArr[i].classList.add("border");
+      }
+    } else if (active === num - 1) {
+      e5.classList.remove("active");
+      for (let i = 0; i < childArr.length; i++) {
+        if (childArr[i].classList[0] === "round")
+          childArr[i].classList.remove("border");
+      }
+    }
+  }, [active, num]);
 
   return (
     <div id="trial" className="row decode-row w-75" onClick={handleClick}>
@@ -44,6 +66,7 @@ export default function Trial({ num, active }) {
       <span id="one" className="round "></span>
       <span id="two" className="round "></span>
       <span id="three" className="round "></span>
+      {selected === 4 && <button onClick={handleSubmit}>submit</button>}
       <div className="ml-auto">
         <Hints />
       </div>
