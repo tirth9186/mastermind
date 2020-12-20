@@ -1,12 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useReducer } from "react";
 import Hints from "./Hints";
 import { colorContext, activeContext } from "../App";
+
 export default function Trial({ num }) {
   const color = useContext(colorContext);
   const [active, setActive] = useContext(activeContext);
-
+  const [seq, setSeq] = useState(["", "", "", ""]);
   const [selected, setSelected] = useState(0);
-
+  const [judge, setJudge] = useState(false);
   const handleClick = (e) => {
     const id = e.target.id;
     if (id !== "" && !id.includes("trial") && active === num) {
@@ -19,11 +20,37 @@ export default function Trial({ num }) {
         ele.classList.remove(last);
         ele.classList.add(color);
       }
+      let numId = 0;
+      switch (id) {
+        case "zero" + num:
+          numId = 0;
+          break;
+        case "one" + num:
+          numId = 1;
+          break;
+        case "two" + num:
+          numId = 2;
+          break;
+        case "three" + num:
+          numId = 3;
+          break;
+        default:
+      }
+      setSeq((seq) => {
+        const seq1 = seq.map((ele, id) => {
+          if (id === numId) return color;
+          else return ele;
+        });
+        return seq1;
+      });
     }
   };
 
   const handleSubmit = () => {
-    if (active === num) setActive(active + 1);
+    if (active === num) {
+      setJudge(true);
+      setActive(active + 1);
+    }
   };
 
   useEffect(() => {
@@ -68,7 +95,7 @@ export default function Trial({ num }) {
       <span id="three" className="round "></span>
       {selected === 4 && <button onClick={handleSubmit}>submit</button>}
       <div className="ml-auto">
-        <Hints />
+        <Hints judge={judge} seq={seq} />
       </div>
     </div>
   );
