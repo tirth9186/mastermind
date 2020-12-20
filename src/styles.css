@@ -23,6 +23,11 @@ h1 {
 .decode-row {
   padding: 10px 0 10px 10px;
   border: #f4f4f4 1px solid;
+  max-width: 300px;
+}
+
+.hover-grey:hover {
+  background-color: #eaebe9;
 }
 
 .selected {

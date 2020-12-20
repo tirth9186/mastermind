@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles.css";
 import ColorButton from "./Components/ColorButton";
@@ -13,7 +14,7 @@ export default function App() {
   const [status, setStatus] = useState("pending");
   const [active, setActive] = useState(0);
   const [showRules, setShowRules] = useState(false);
-  const [trials, setTrials] = useState(10);
+  const [trials] = useState(10);
   const colors = ["zero", "one", "two", "three", "four", "five"];
   const [ans, setAns] = useState([]);
   const arr = [];
@@ -29,13 +30,14 @@ export default function App() {
     setAns(temparr);
   };
 
+  const handleClose = () => {
+    console.log("Clicked");
+    window.location.reload();
+  };
+
   useEffect(() => {
     startGame();
   }, []);
-
-  useEffect(() => {
-    if (status !== "pending") alert("You " + status);
-  }, [status]);
 
   return (
     <div className="App">
@@ -48,6 +50,35 @@ export default function App() {
         <span className="R">R</span>
         <span className="MIND">MIND</span>
       </h1>
+
+      <Modal
+        show={status === "Win"}
+        onHide={handleClose}
+        centered
+        contentClassName="bg-success"
+      >
+        <Modal.Body className="mx-auto">
+          <h1 className="text-white">Congratulations!!</h1>
+          <Button variant="light" onClick={handleClose}>
+            Play again!
+          </Button>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={status === "Lose"}
+        onHide={handleClose}
+        centered
+        contentClassName="bg-danger"
+      >
+        <Modal.Body className="mx-auto">
+          <h1 className="text-white">Game Over!</h1>
+          <Button variant="light" onClick={handleClose}>
+            Play again!
+          </Button>
+        </Modal.Body>
+      </Modal>
+
       <div className="row">
         <div className="col-md-3 mx-auto">
           <button className="btn" onClick={() => setShowRules(!showRules)}>
@@ -64,10 +95,10 @@ export default function App() {
           )}
         </div>
       </div>
-      <div className="row">
-        <div className="col-sm-10 col-md-6 mx-auto clearfix">
+      <div className="row controlled-width">
+        <div className="col-8 offset-4 clearfix">
           <div className="row">
-            <div className="col">
+            <div className="col-6">
               <colorContext.Provider value={color}>
                 <activeContext.Provider value={[active, setActive]}>
                   <answerContext.Provider value={[ans, trials]}>
@@ -80,7 +111,7 @@ export default function App() {
                 </activeContext.Provider>
               </colorContext.Provider>
             </div>
-            <div className="col">
+            <div className="col-2">
               <ColorButton setColor={setColor} />
             </div>
           </div>

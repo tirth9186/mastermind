@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect, useReducer } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { FcCheckmark } from "react-icons/fc";
 import Hints from "./Hints";
 import { colorContext, activeContext } from "../App";
 
@@ -70,7 +71,7 @@ export default function Trial({ num }) {
   }, [num]);
 
   useEffect(() => {
-    if (active !== num && active !== num - 1) return;
+    if (active !== num && active - 1 !== num) return;
     const e5 = document.getElementById("trial" + num);
     const childArr = e5.children;
     if (active === num) {
@@ -79,7 +80,8 @@ export default function Trial({ num }) {
         if (childArr[i].classList[0] === "round")
           childArr[i].classList.add("border");
       }
-    } else if (active === num - 1) {
+    } else if (active - 1 === num) {
+      setSelected(0);
       e5.classList.remove("active");
       for (let i = 0; i < childArr.length; i++) {
         if (childArr[i].classList[0] === "round")
@@ -89,12 +91,18 @@ export default function Trial({ num }) {
   }, [active, num]);
 
   return (
-    <div id="trial" className="row decode-row w-75" onClick={handleClick}>
+    <div id="trial" className="row decode-row" onClick={handleClick}>
       <span id="zero" className="round "></span>
       <span id="one" className="round "></span>
       <span id="two" className="round "></span>
       <span id="three" className="round "></span>
-      {selected === 4 && <button onClick={handleSubmit}>submit</button>}
+      {selected === 4 && (
+        <FcCheckmark
+          size="20px"
+          className="mt-3 ml-3 hover-grey"
+          onClick={handleSubmit}
+        />
+      )}
       <div className="ml-auto">
         <Hints judge={judge} seq={seq} />
       </div>
