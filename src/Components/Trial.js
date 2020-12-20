@@ -4,6 +4,7 @@ import { colorContext, activeContext } from "../App";
 
 export default function Trial({ num }) {
   const color = useContext(colorContext);
+
   const [active, setActive] = useContext(activeContext);
   const [seq, setSeq] = useState(["", "", "", ""]);
   const [selected, setSelected] = useState(0);

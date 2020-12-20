@@ -1,18 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles.css";
 import ColorButton from "./Components/ColorButton";
 import Trial from "./Components/Trial";
 
 export const colorContext = React.createContext();
+export const answerContext = React.createContext();
 export const activeContext = React.createContext();
+export const statusContext = React.createContext();
 export default function App() {
   const [color, setColor] = useState("zero");
+  const [status, setStatus] = useState("pending");
   const [active, setActive] = useState(0);
   const [showRules, setShowRules] = useState(false);
   const [trials, setTrials] = useState(10);
+  const colors = ["zero", "one", "two", "three", "four", "five"];
+  const [ans, setAns] = useState([]);
   const arr = [];
   for (let i = 0; i < trials; i++) arr.push(i);
+
+  const startGame = () => {
+    setActive(0);
+    const temparr = [];
+    for (let i = 0; i < 4; i++) {
+      let id = Math.floor(Math.random() * 6);
+      temparr.push(colors[id]);
+    }
+    setAns(temparr);
+  };
+
+  useEffect(() => {
+    startGame();
+  }, []);
+
+  useEffect(() => {
+    if (status !== "pending") alert("You " + status);
+  }, [status]);
+
   return (
     <div className="App">
       <h1>
@@ -46,10 +70,13 @@ export default function App() {
             <div className="col">
               <colorContext.Provider value={color}>
                 <activeContext.Provider value={[active, setActive]}>
-                  {arr.map((num) => {
-                    if (num === 0) return <Trial key={num} num={num} />;
-                    else return <Trial key={num} num={num} />;
-                  })}
+                  <answerContext.Provider value={[ans, trials]}>
+                    <statusContext.Provider value={[status, setStatus]}>
+                      {arr.map((num) => (
+                        <Trial key={num} num={num} />
+                      ))}
+                    </statusContext.Provider>
+                  </answerContext.Provider>
                 </activeContext.Provider>
               </colorContext.Provider>
             </div>
