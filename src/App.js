@@ -31,7 +31,8 @@ export default function App() {
   };
 
   const handleClose = () => {
-    console.log("Clicked");
+    setStatus("pending");
+    setActive(0);
     window.location.reload();
   };
 
@@ -90,7 +91,10 @@ export default function App() {
               turns. After submitting a row, a small black peg is placed for
               each code peg from the guess which is correct in both color and
               position. A white peg indicates the existence of a correct color
-              code peg placed in the wrong position. More info on Wikipedia.
+              code peg placed in the wrong position. More info on{" "}
+              <a href="https://en.wikipedia.org/wiki/Mastermind_(board_game)">
+                Wikipedia.
+              </a>
             </p>
           )}
         </div>
